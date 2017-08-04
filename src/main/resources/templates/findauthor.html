@@ -2,9 +2,22 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head lang="en">
     <meta charset="UTF-8"/>
-    <title>Title</title>
+    <title>Book by Author</title>
 </head>
 <body>
+<h1>Showing Book Details</h1>
 
+<p>Author: <input type = "text" th:field="*{bookAuthor}" /></p>
+<p th:text="'Book Sku: ' + ${newBook.bookSku}" />
+<p th:text="'Title: ' + ${newBook.bookTitle}" />
+<p th:text="'Author: ' + ${newBook.bookAuthor}" />
+<p th:text="'Description: ' + ${newBook.bookDescription}" />
+<p th:text="'Price: ' + ${newBook.bookPrice}" />
+
+<p><input type = "submit" value = "Seach"/> <input type="reset" value="Clear Form" /></p>
+
+<p><a href="/addbook">Add another Book</a></p>
+<p><a href="/showbooks">Show all the books in the database</a></p>
+<p><a href = "/">Go back to the main menu.</a></p>
 </body>
 </html>

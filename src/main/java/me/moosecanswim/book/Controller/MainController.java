@@ -45,11 +45,24 @@ public class MainController {
         return "showbookdetails";
     }
     @GetMapping("/showbooks")
-    public @ResponseBody
-    String listProducts()
+    //public @ResponseBody String listProducts(Model sendModel)
+    public  String listProducts(Model sendModel)
     {
-        Iterable <Book> productList = bookRepository.findAll();
-        return productList.toString();
+
+        Iterable <Book> bookList = bookRepository.findAll();
+
+        for(Book i: bookList) {
+            Long thisID = i.getID();
+            String thisSKU = i.getBookSku();
+            String thisTitle = i.getBookTitle();
+            String thisDesc = i.getBookDescription();
+            double thisPrice = i.getBookPrice();
+
+            String output = String.format("| sku: %s | title: %s | description: %s | price: $%.2f",thisSKU,thisTitle,thisDesc,thisPrice);
+            System.out.println(output);
+        }
+        sendModel.addAttribute("listOfBooks",bookList);
+        return "showbooks";
     }
 
 
