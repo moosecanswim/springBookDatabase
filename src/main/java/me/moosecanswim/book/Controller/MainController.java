@@ -7,10 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 
 import javax.validation.Valid;
@@ -42,8 +39,17 @@ public class MainController {
             return "addbook";
         }
         //add the book to the database
+        System.out.println("*adding a new book");
+        System.out.println(newBook.getBookSku());
         bookRepository.save(newBook);
         return "showbookdetails";
+    }
+    @GetMapping("/showbooks")
+    public @ResponseBody
+    String listProducts()
+    {
+        Iterable <Book> productList = bookRepository.findAll();
+        return productList.toString();
     }
 
 
