@@ -38,6 +38,10 @@ public class MainController {
         if(bindingResult.hasErrors()){
             return "addbook";
         }
+
+
+
+
         //add the book to the database
         System.out.println("*adding a new book");
         System.out.println(newBook.getBookSku());
@@ -51,24 +55,55 @@ public class MainController {
 
         Iterable <Book> bookList = bookRepository.findAll();
 
-        for(Book i: bookList) {
-            Long thisID = i.getID();
-            String thisSKU = i.getBookSku();
-            String thisTitle = i.getBookTitle();
-            String thisDesc = i.getBookDescription();
-            double thisPrice = i.getBookPrice();
 
-            String output = String.format("| sku: %s | title: %s | description: %s | price: $%.2f",thisSKU,thisTitle,thisDesc,thisPrice);
-            System.out.println(output);
-        }
         sendModel.addAttribute("listOfBooks",bookList);
         return "showbooks";
     }
 
+    @GetMapping("/adddefaultbook")
+    public String addDefaultBook()
+    {
+
+        //bookDB.add(new Book("sku","title","author","description",100));
+        String defaultBooks[][] ={
+                {
+                        "Java1001", "Head First Java", "Kathy Sierra and Bert Bates", "Easy to read Java workbook", "47.50"
+                },
+                {
+                        "Java1002", "Thinking in Java", "Bruce Eckel", "Details about Java under the hood", "20.00"
+                },
+                {
+                        "Orcl1003", "OCP: Oracle Certified Professional Java SE", "Jeanne Boyarsky", "Everything you need to know in one place", "45.00"
+                },
+                {
+                        "Python1004", "Automate the Boring Stuff with Python", "Al Sweigart", "Fun with Python", "10.50"
+                },
+                {
+                        "Zombie1005", "The Maker's Guide to the Zombie Apocalypse", "Simon Monk", "Defend Your Base with Simple Circuits, Arduino, and Raspberry Pi", "16.50"
+                },
+                {
+                        "Rasp1006", "Raspberry Pi Projects for the Evil Genius", "Kyle", "A dozen fiendishly fun projects for the Raspberry Pi!", "14.75"
+                },
+                {
+                        "Rasp1007", "Rasb 2", "Kyle", "A dozen fiendishly fun projects for the Raspberry Pi!", "15.75"
+                }
+
+        };
 
 
-
-
-
+        for(int i = 0; i < defaultBooks.length ;i++){
+            Book defaultBook = new Book();
+            defaultBook.setBookSku(defaultBooks[i][0]);
+            defaultBook.setBookTitle(defaultBooks[i][1]);
+            defaultBook.setBookAuthor(defaultBooks[i][2]);
+            defaultBook.setBookDescription(defaultBooks[i][3]);
+            String tempPrice = defaultBooks[i][4];
+            double tempBookPrice = Double.valueOf(tempPrice);
+            defaultBook.setBookPrice(tempBookPrice);
+            bookRepository.save(defaultBook);
+         }
+            return "showbooks";
+    }
 
 }
+
